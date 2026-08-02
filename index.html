@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة مستر محمد كامل التفاعلية | قوى القوى</title>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --white: #ffffff;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            background: var(--white);
+            margin: -30px auto 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 40px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .active-section { display: block; }
+
+        input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 18px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus { border-color: var(--primary); }
+
+        button {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+            background-color: var(--secondary);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .badge {
+            background: var(--accent);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        .math-box {
+            background: #fdfcfe;
+            padding: 20px;
+            border-radius: 15px;
+            border-right: 6px solid var(--secondary);
+            margin: 20px 0;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .step-tag {
+            display: inline-block;
+            background: #e0e7ff;
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--success);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            color: var(--text);
+            border: 2px solid #e2e8f0;
+            text-align: right;
+            font-size: 1.1em;
+            padding: 20px;
+            margin: 0;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover { border-color: var(--primary); background: #f8fafc; }
+        .correct { background-color: var(--success) !important; color: white !important; border-color: var(--success); }
+        .wrong { background-color: var(--error) !important; color: white !important; border-color: var(--error); }
+
+        .explanation-box {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .options-container { grid-template-columns: 1fr; }
+            .stats-bar { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>💎 منصة مستر محمد كامل التعليمية</h1>
+        <p>منهج الصف الثالث الإعدادي 2027 | الجبر</p>
+    </header>
+
+    <!-- Welcome Section -->
+    <div id="welcome-section" class="container active-section" style="text-align: center;">
+        <h2 style="color: var(--primary);">مرحباً بك يا بطل!</h2>
+        <p>استعد لرحلة ممتعة في عالم "الأسس وقوى القوى". هل أنت جاهز لجمع الـ XP؟</p>
+        <input type="text" id="student-name" placeholder="أدخل اسمك الثلاثي لتوثيق إنجازك...">
+        <br>
+        <button onclick="startApp()">انطلق الآن 🚀</button>
+    </div>
+
+    <!-- Lesson Section -->
+    <div id="lesson-section" class="container">
+        <div class="stats-bar">
+            <span>👤 <span id="display-name"></span></span>
+            <span>🏆 <span id="display-level" class="badge">مبتدئ</span></span>
+            <span>⚡ <span id="display-xp">0</span> XP</span>
+        </div>
+        
+        <h2 style="border-bottom: 2px solid var(--secondary); padding-bottom: 10px;">الدرس الأول: قوى القوى (أس الأس)</h2>
+        
+        <h3>💡 المفهوم الأساسي:</h3>
+        <p>عندما نرفع عدداً مرفوعاً لأس معين، إلى أس آخر جديد، فإننا <strong>نضرب الأسس في بعضها</strong>.</p>
+        <p>القاعدة الذهبية: <strong>$(x^m)^n = x^{m \times n}$</strong></p>
+
+        <div class="math-box">
+            <span class="step-tag">سر المبدعين:</span>
+            <p>لا تنسَ هذه القواعد الهامة أثناء الحل:</p>
+            <ul>
+                <li><strong>توزيع الأس:</strong> الأس يوزع على عملية الضرب والقسمة، مثل $(xy)^n = x^n y^n$.</li>
+                <li><strong>الأس السالب:</strong> يقلب الأساس (نجعله في المقام)، مثل $x^{-n} = \frac{1}{x^n}$.</li>
+                <li><strong>الأس الصفري:</strong> أي عدد (غير الصفر) أسه صفر يساوي 1.</li>
+                <li><strong>الإشارة السالبة:</strong> تختفي إذا كان الأس الخارجي زوجياً، وتبقى إذا كان فردياً.</li>
+            </ul>
+        </div>
+
+        <h3>📝 أمثلة احترافية محلولة:</h3>
+        
+        <div class="math-box">
+            <p><strong>1) التطبيق المباشر لقوى القوى:</strong> بسط المقدار $(2^3)^4$</p>
+            <ul>
+                <li>نضرب الأس الداخلي (3) في الأس الخارجي (4).</li>
+                <li>الناتج: $2^{3 \times 4} = 2^{12}$</li>
+            </ul>
+        </div>
+
+        <div class="math-box" style="border-right-color: var(--accent);">
+            <p><strong>2) توزيع الأس على الضرب:</strong> اختصر $(3x^2)^3$</p>
+            <ul>
+                <li>نوزع الأس الخارجي (3) على العدد (3) وعلى الرمز $(x^2)$.</li>
+                <li>يصبح: $3^3 \times (x^2)^3$</li>
+                <li>الناتج: $27x^6$</li>
+            </ul>
+        </div>
+
+        <div class="math-box" style="border-right-color: var(--error);">
+            <p><strong>3) التعامل مع الجذور والأسس السلبية:</strong> بسط $(\sqrt{5}^3)^2$</p>
+            <ul>
+                <li>قوة القوة: نضرب الأسس $(3 \times 2 = 6)$ فتصبح $\sqrt{5}^6$.</li>
+                <li>لتبسيط جذر تربيعي له أس، نقسم الأس على 2 ونحذف الجذر.</li>
+                <li>الناتج: $5^{(6 \div 2)} = 5^3 = 125$.</li>
+            </ul>
+        </div>
+
+        <button onclick="startQuiz()" style="width: 100%; background: var(--success);">انتقل للاختبار (10 أسئلة) 📝</button>
+    </div>
+
+    <!-- Quiz Section -->
+    <div id="quiz-section" class="container">
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div class="stats-bar">
+            <span>السؤال: <span id="q-current">1</span> / 10</span>
+            <span>⚡ النقاط: <span id="quiz-xp">0</span> XP</span>
+        </div>
+        
+        <h3 id="question-text" style="font-size: 1.4em; color: var(--primary); direction: rtl;"></h3>
+        
+        <div id="options" class="options-container"></div>
+        
+        <div id="explanation" class="explanation-box"></div>
+        
+        <button id="next-btn" style="display: none; width: 100%;" onclick="nextQuestion()">السؤال التالي ➔</button>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result-section" class="container" style="text-align: center;">
+        <h2 id="result-title">انتهى الاختبار بنجاح!</h2>
+        <div style="font-size: 50px; margin: 20px;">🏆</div>
+        <p>أحسنت يا <span id="result-name" style="font-weight: bold; color: var(--primary);"></span>.</p>
+        <div class="math-box">
+            <p>درجتك: <strong id="result-score" style="font-size: 24px;"></strong></p>
+            <p>إجمالي نقاطك الآن: <strong id="result-total-xp"></strong> XP</p>
+        </div>
+        <p id="level-up-msg" style="color: var(--success); font-weight: bold;"></p>
+        <button onclick="location.reload()">العودة للرئيسية وإعادة المحاولة</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "بسط المقدار التالي في أبسط صورة: $(2^3)^4$",
+                options: ["$2^7$", "$2^{12}$", "$2^{81}$", "$16$"],
+                answer: 1,
+                explanation: "حسب قاعدة (قوى القوى)، نضرب الأس الداخلي في الأس الخارجي: $3 \\times 4 = 12$."
+            },
+            {
+                q: "ما هي القيمة المبسطة للمقدار $(x^2)^5$؟",
+                options: ["$x^{10}$", "$x^7$", "$x^{25}$", "$2x^{10}$"],
+                answer: 0,
+                explanation: "نطبق القاعدة ونضرب الأسس: $2 \\times 5 = 10$. إذن الناتج هو $x^{10}$."
+            },
+            {
+                q: "احسب قيمة المقدار: $(5^0)^4$",
+                options: ["$5$", "$20$", "$0$", "$1$"],
+                answer: 3,
+                explanation: "أي عدد مرفوع للأس صفر يساوي 1 (أي أن $5^0 = 1$). ثم نرفع الناتج للأس 4: $1^4 = 1$."
+            },
+            {
+                q: "بسط المقدار الجبري التالي: $(3a^2)^3$",
+                options: ["$3a^6$", "$9a^6$", "$27a^6$", "$27a^5$"],
+                answer: 2,
+                explanation: "نوزع الأس (3) على المعامل (3) وعلى المتغير $(a^2)$. فتصبح $3^3 \\times (a^2)^3 = 27a^6$."
+            },
+            {
+                q: "أي مما يلي يكافئ المقدار $(x^{-2})^3$؟",
+                options: ["$x^{-5}$", "$\\frac{1}{x^6}$", "$x^6$", "$\\frac{1}{x^5}$"],
+                answer: 1,
+                explanation: "نضرب الأسس $(-2 \\times 3 = -6)$ ليصبح المقدار $x^{-6}$. للتخلص من الأس السالب ننزله للمقام فيصبح $\\frac{1}{x^6}$."
+            },
+            {
+                q: "ما هي قيمة المقدار $(-2x^3)^4$؟",
+                options: ["$-8x^{12}$", "$16x^{12}$", "$-16x^{12}$", "$16x^7$"],
+                answer: 1,
+                explanation: "الأس (4) هو عدد زوجي، لذا يمحو الإشارة السالبة. نوزع الأس: $2^4 = 16$ و $(x^3)^4 = x^{12}$. الناتج $16x^{12}$."
+            },
+            {
+                q: "اختصر المقدار التالي: $\\frac{(2^3)^2 \\times 2^4}{2^{10}}$",
+                options: ["$2$", "$1$", "$0$", "$2^2$"],
+                answer: 1,
+                explanation: "البسط: $(2^3)^2 = 2^6$. عند الضرب نجمع الأسس: $2^6 \\times 2^4 = 2^{10}$. الآن لدينا $\\frac{2^{10}}{2^{10}} = 1$."
+            },
+            {
+                q: "باستخدام قوانين الجذور والأسس، بسط: $(\\sqrt{5}^3)^2$",
+                options: ["$5$", "$25$", "$125$", "$5\\sqrt{5}$"],
+                answer: 2,
+                explanation: "نضرب الأسس: $(\\sqrt{5})^6$. لتبسيط الجذر التربيعي نقسم أس المجذور على 2، فتصبح $5^3 = 125$."
+            },
+            {
+                q: "إذا كانت المساحة تعطى بالعلاقة $\\pi(3r^2)^2$، فما التبسيط الصحيح لها؟",
+                options: ["$3\\pi r^4$", "$6\\pi r^4$", "$9\\pi r^4$", "$9\\pi r^2$"],
+                answer: 2,
+                explanation: "نوزع التربيع على الـ 3 وعلى $r^2$. فتصبح $\\pi \\times 3^2 \\times (r^2)^2 = \\pi \\times 9 \\times r^4 = 9\\pi r^4$."
+            },
+            {
+                q: "في أبسط صورة، المقدار $(a^2 b^{-3})^{-2}$ يساوي:",
+                options: ["$a^{-4} b^6$", "$a^4 b^6$", "$\\frac{a^4}{b^6}$", "$a^{-4} b^{-5}$"],
+                answer: 0,
+                explanation: "نوزع الأس الخارجي بضربه في أسس الداخل: لـ $a$ تصبح $2 \\times -2 = -4$، ولـ $b$ تصبح $-3 \\times -2 = 6$. الناتج $a^{-4} b^6$."
+            }
+        ];
+
+        let currentUser = { name: "", xp: 0, level: "مبتدئ" };
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function startApp() {
+            const nameInput = document.getElementById('student-name').value;
+            if(nameInput.trim().length < 3) {
+                alert("لطفاً، أدخل اسمك الثلاثي بشكل صحيح!");
+                return;
+            }
+            
+            let savedUser = localStorage.getItem('mrKamelUserV3_' + nameInput);
+            if(savedUser) {
+                currentUser = JSON.parse(savedUser);
+            } else {
+                currentUser.name = nameInput;
+            }
+
+            updateStats();
+            document.getElementById('welcome-section').classList.remove('active-section');
+            document.getElementById('lesson-section').classList.add('active-section');
+            MathJax.typesetPromise();
+        }
+
+        function updateStats() {
+            document.querySelectorAll('#display-name').forEach(el => el.innerText = currentUser.name);
+            document.querySelectorAll('#display-xp').forEach(el => el.innerText = currentUser.xp);
+            document.getElementById('quiz-xp').innerText = currentUser.xp;
+            
+            if(currentUser.xp >= 600) currentUser.level = "أسطورة الجبر 🎓";
+            else if(currentUser.xp >= 400) currentUser.level = "مهندس الأسس 👷";
+            else if(currentUser.xp >= 200) currentUser.level = "محلل ذكي 🧠";
+            else if(currentUser.xp >= 50) currentUser.level = "طالب مجتهد ✍️";
+            
+            document.getElementById('display-level').innerText = currentUser.level;
+            localStorage.setItem('mrKamelUserV3_' + currentUser.name, JSON.stringify(currentUser));
+        }
+
+        function startQuiz() {
+            document.getElementById('lesson-section').classList.remove('active-section');
+            document.getElementById('quiz-section').classList.add('active-section');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestionIndex];
+            document.getElementById('q-current').innerText = currentQuestionIndex + 1;
+            document.getElementById('question-text').innerHTML = q.q;
+            
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + "%";
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = "";
+            document.getElementById('next-btn').style.display = "none";
+            document.getElementById('explanation').style.display = "none";
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn";
+                btn.innerHTML = opt;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsDiv.appendChild(btn);
+            });
+            
+            MathJax.typesetPromise();
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            const q = questions[currentQuestionIndex];
+            const allBtns = document.querySelectorAll('.option-btn');
+            const expDiv = document.getElementById('explanation');
+            
+            allBtns.forEach(b => b.disabled = true);
+
+            if(selectedIndex === q.answer) {
+                btn.classList.add('correct');
+                score++;
+                currentUser.xp += 20; 
+                expDiv.style.borderColor = "var(--success)";
+                expDiv.style.background = "#ecfdf5";
+            } else {
+                btn.classList.add('wrong');
+                allBtns[q.answer].classList.add('correct');
+                expDiv.style.borderColor = "var(--error)";
+                expDiv.style.background = "#fef2f2";
+            }
+            
+            expDiv.innerHTML = `<strong>توضيح المدرب:</strong> ${q.explanation}`;
+            expDiv.style.display = "block";
+
+            updateStats();
+            document.getElementById('next-btn').style.display = "block";
+            MathJax.typesetPromise();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if(currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('progress-bar').style.width = "100%";
+            document.getElementById('quiz-section').classList.remove('active-section');
+            document.getElementById('result-section').classList.add('active-section');
+            
+            document.getElementById('result-name').innerText = currentUser.name;
+            document.getElementById('result-score').innerText = `${score} من ${questions.length}`;
+            document.getElementById('result-total-xp').innerText = currentUser.xp;
+            
+            if(score === questions.length) {
+                document.getElementById('result-title').innerText = "عبقري درجة أولى! ⭐⭐⭐";
+                document.getElementById('level-up-msg').innerText = "لقد حصلت على الوسام الذهبي في قوانين الأسس!";
+            } else if (score >= 7) {
+                document.getElementById('result-title').innerText = "أداء ممتاز! ⭐⭐";
+                document.getElementById('level-up-msg').innerText = "أنت على الطريق الصحيح لتصبح أسطورة الجبر.";
+            } else {
+                document.getElementById('result-title').innerText = "محاولة جيدة! ⭐";
+                document.getElementById('level-up-msg').innerText = "راجع الأمثلة المحلولة مرة أخرى لتحسين مستواك.";
+            }
+        }
+    </script>
+</body>
+</html>
